@@ -28,10 +28,12 @@ router.post('/', function(req, res, next) {
 					}
 
 					let token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: process.env.EXPIRES_IN});
+					let refreshToken = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN});
 				
 					return res.status(200).json({
 								data: payload,
 								token: token,
+								refreshToken: refreshToken,
 								status: 200
 							});
 				})

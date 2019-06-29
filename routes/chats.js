@@ -1,16 +1,34 @@
 const express = require('express');
 const router  = express.Router();
+const model   = require('../models');
+const chat    = model.chat;
 
 router.get('/', function(req, res, next) {
-	res.json({
-		message: 'ok'
-	});
+	chat.scope('withUser').findAll({})
+	    .then(data => {
+	    	if(data.length == 0) {
+	    		return res.status(200).json({message: 'chat empty'})
+	    	}
+	    	res.status(200).json(data);
+	    })
+	    .catch(e => {
+	    	res.status(500).json({message: 'Server error'})
+	    })
 });
 
 router.post('/', function(req, res, next) {
-	res.json({
-		message: 'ok',
-	})
+	const body = {
+		chat: req.body.chat,
+		user_id: req.user.id
+	}
+
+	chat.create(body)
+	    .then(data => {
+	    	res.status(201).json(data);
+	    })
+	    .catch(e => {
+	    	res.status(500).json({message: "Server error"})
+	    })
 });
 
 module.exports = router;
