@@ -1,14 +1,24 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const user = sequelize.define('user', {
     username: DataTypes.STRING,
     password: DataTypes.STRING
-  }, {});
-  User.associate = function(models) {
+  }, {
+  	defaultScope: {
+  		attributes: {
+  			exclude: ['password']
+  		}
+  	},
+  	scopes: {
+  		withPassword: {
+  			attributes: {
+  				include: ['password']
+  			}
+  		}
+  	}
+  });
+  user.associate = function(models) {
     // associations can be defined here
-    User.hasMany(models.Chat, function() {
-    	foreighKey: 'user_id'
-    })
   };
-  return User;
+  return user;
 };
