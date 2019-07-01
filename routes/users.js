@@ -21,4 +21,8 @@ router.get('/', async function(req, res, next) {
 		});
 });
 
+router.get('/profile', async function(req, res, next) {
+	res.status(200).json(req.user);
+});
+
 module.exports = router;

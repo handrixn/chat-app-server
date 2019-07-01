@@ -11,7 +11,6 @@ router.post('/', function(req, res, next) {
 
 	user.scope('withPassword').findOne({where: identity})
 		.then(data => {
-			console.log(req.body.password);
 			if(!(data)) {
 				res.status(404).send({statusMessage: 'Username not found'});
 			} else {
